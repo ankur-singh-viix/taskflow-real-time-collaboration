@@ -35,8 +35,7 @@ npm run install:all
 ### Step 2 — Configure Backend
 ```bash
 cd backend
-cp .env.example .env
-# Edit .env if needed (defaults work out of the box)
+cp  .env
 ```
 
 ### Step 3 — Seed Database
@@ -57,7 +56,7 @@ Or run separately:
 npm run dev:backend
 
 # Terminal 2 — Frontend
-npm run dev:frontend
+npm start:frontend
 ```
 
 ### Step 5 — Open App
