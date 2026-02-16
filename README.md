@@ -26,7 +26,7 @@ role-based access control, and scalable real-time communication.
 ### Step 1 — Clone & Install
 ```bash
 # Navigate into the project
-cd taskflow
+cd taskflow-real-time-collaboration
 
 # Install all dependencies (root + backend + frontend)
 npm run install:all
