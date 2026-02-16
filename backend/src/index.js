@@ -76,9 +76,9 @@ const PORT = process.env.PORT || 5000;
 
 initDb().then(() => {
   server.listen(PORT, () => {
-    console.log(`\n🚀 TaskFlow Server running on http://localhost:${PORT}`);
-    console.log(`📡 WebSocket server ready`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}\n`);
+    console.log(`\n TaskFlow Server running on http://localhost:${PORT}`);
+    console.log(` WebSocket server ready`);
+    console.log(` Environment: ${process.env.NODE_ENV || 'development'}\n`);
   });
 }).catch(err => {
   console.error('Failed to initialize database:', err);

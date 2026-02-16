@@ -36,7 +36,7 @@ export default function LoginPage() {
           <p style={styles.subtitle}>Sign in to your account</p>
 
           <div style={styles.demoBadge}>
-            <p style={styles.demoTitle}>🎯 Demo accounts</p>
+            <p style={styles.demoTitle}> Demo accounts:</p>
             <div style={styles.demoButtons}>
               {['alice@taskflow.com', 'bob@taskflow.com', 'carol@taskflow.com'].map(email => (
                 <button key={email} className="btn btn-secondary btn-sm"

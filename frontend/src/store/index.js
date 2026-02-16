@@ -2,9 +2,23 @@ import { create } from 'zustand';
 import { authAPI } from '../services/api';
 import { connectSocket, disconnectSocket } from '../services/socket';
 
+
+//  MUST BE HERE
+const storedUser = localStorage.getItem('user');
+
+let parsedUser = null;
+
+try {
+  if (storedUser && storedUser !== 'undefined') {
+    parsedUser = JSON.parse(storedUser);
+  }
+} catch (error) {
+  parsedUser = null;
+}
+
 // Auth Store
 export const useAuthStore = create((set, get) => ({
-  user: JSON.parse(localStorage.getItem('user') || 'null'),
+  user: parsedUser,
   token: localStorage.getItem('token') || null,
   isLoading: false,
 
@@ -12,14 +26,25 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true });
     try {
       const { data } = await authAPI.login(credentials);
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+
       connectSocket(data.token);
-      set({ user: data.user, token: data.token, isLoading: false });
+
+      set({
+        user: data.user,
+        token: data.token,
+        isLoading: false,
+      });
+
       return { success: true };
     } catch (err) {
       set({ isLoading: false });
-      return { success: false, error: err.response?.data?.error || 'Login failed' };
+      return {
+        success: false,
+        error: err.response?.data?.error || 'Login failed',
+      };
     }
   },
 
@@ -27,15 +52,29 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true });
     try {
       const { data } = await authAPI.signup(userData);
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+
       connectSocket(data.token);
-      set({ user: data.user, token: data.token, isLoading: false });
+
+      set({
+        user: data.user,
+        token: data.token,
+        isLoading: false,
+      });
+
       return { success: true };
     } catch (err) {
       set({ isLoading: false });
       const errors = err.response?.data?.errors;
-      return { success: false, error: errors?.[0]?.msg || err.response?.data?.error || 'Signup failed' };
+      return {
+        success: false,
+        error:
+          errors?.[0]?.msg ||
+          err.response?.data?.error ||
+          'Signup failed',
+      };
     }
   },
 
