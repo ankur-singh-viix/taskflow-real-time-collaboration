@@ -27,10 +27,15 @@ export const useAuthStore = create((set, get) => ({
     try {
       const { data } = await authAPI.login(credentials);
 
+      if (!data?.token || !data?.user) {
+      throw new Error("Invalid login response");
+    }
+
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      // connectSocket(data.token);
+       connectSocket(data.token);
 
       set({
         user: data.user,
