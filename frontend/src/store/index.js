@@ -30,7 +30,7 @@ export const useAuthStore = create((set, get) => ({
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      connectSocket(data.token);
+      // connectSocket(data.token);
 
       set({
         user: data.user,

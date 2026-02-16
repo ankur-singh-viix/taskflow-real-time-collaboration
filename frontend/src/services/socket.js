@@ -8,19 +8,28 @@ const SOCKET_URL =
 let socket = null;
 
 export function connectSocket(token) {
+  // 🔒 Prevent connection without token
   if (!token) {
-    console.error("No token provided for socket connection");
+    console.warn(' Socket not connected: No token provided');
     return null;
   }
 
-  if (socket?.connected) return socket;
+  // 🔁 Prevent duplicate connections
+  if (socket && socket.connected) {
+    return socket;
+  }
+
+  // 🧹 Clean old socket if exists
+  if (socket) {
+    socket.disconnect();
+  }
 
   socket = io(SOCKET_URL, {
     auth: { token },
-    transports: ['websocket'], // cleaner for production
+    transports: ['websocket'], // Best for production
     reconnection: true,
-    reconnectionDelay: 1000,
     reconnectionAttempts: 5,
+    reconnectionDelay: 1000,
   });
 
   socket.on('connect', () => {
@@ -32,7 +41,7 @@ export function connectSocket(token) {
   });
 
   socket.on('disconnect', (reason) => {
-    console.log('Socket disconnected:', reason);
+    console.log(' Socket disconnected:', reason);
   });
 
   return socket;
@@ -50,9 +59,13 @@ export function disconnectSocket() {
 }
 
 export function joinBoard(boardId) {
-  socket?.emit('join:board', boardId);
+  if (socket?.connected) {
+    socket.emit('join:board', boardId);
+  }
 }
 
 export function leaveBoard(boardId) {
-  socket?.emit('leave:board', boardId);
+  if (socket?.connected) {
+    socket.emit('leave:board', boardId);
+  }
 }

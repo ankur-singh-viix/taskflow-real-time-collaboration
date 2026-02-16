@@ -8,6 +8,10 @@ import DashboardPage from './pages/DashboardPage';
 import BoardPage from './pages/BoardPage';
 import './index.css';
 
+/* =========================
+   ROUTE GUARDS
+========================= */
+
 function PrivateRoute({ children }) {
   const token = useAuthStore(s => s.token);
   return token ? children : <Navigate to="/login" replace />;
@@ -18,12 +22,19 @@ function PublicRoute({ children }) {
   return !token ? children : <Navigate to="/dashboard" replace />;
 }
 
+/* =========================
+   APP
+========================= */
+
 export default function App() {
+  const token = useAuthStore(s => s.token);
   const initSocket = useAuthStore(s => s.initSocket);
 
   useEffect(() => {
-    initSocket();
-  }, [initSocket]);
+    if (token) {
+      initSocket();   // connect socket ONLY when token exists
+    }
+  }, [token, initSocket]);
 
   return (
     <BrowserRouter>
@@ -34,12 +45,45 @@ export default function App() {
           style: { fontFamily: 'Inter, sans-serif', fontSize: '14px' },
         }}
       />
+
       <Routes>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
-        <Route path="/signup" element={<PublicRoute><SignupPage /></PublicRoute>} />
-        <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-        <Route path="/board/:boardId" element={<PrivateRoute><BoardPage /></PrivateRoute>} />
+
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <SignupPage />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <DashboardPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/board/:boardId"
+          element={
+            <PrivateRoute>
+              <BoardPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
