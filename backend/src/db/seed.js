@@ -94,8 +94,8 @@ async function seed() {
     );
   }
 
-  console.log('\n✅ Database seeded successfully!');
-  console.log('\n📋 Demo Credentials:');
+  console.log('\n Database seeded successfully!');
+  console.log('\n Demo Credentials:');
   console.log('  Email: alice@taskflow.com | Password: password123');
   console.log('  Email: bob@taskflow.com   | Password: password123');
   console.log('  Email: carol@taskflow.com | Password: password123');

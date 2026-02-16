@@ -68,12 +68,7 @@ export default function App() {
         />
 
         <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <DashboardPage />
-            </PrivateRoute>
-          }
+          path="/dashboard"element={<PrivateRoute><DashboardPage /></PrivateRoute> }
         />
 
         <Route

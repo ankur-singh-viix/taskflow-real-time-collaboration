@@ -40,8 +40,8 @@ function BoardCard({ board, onClick, onDelete }) {
         )}
 
         <div style={styles.boardMeta}>
-          <span>📋 {board.list_count} lists</span>
-          <span>✅ {board.task_count} tasks</span>
+          <span> {board.list_count} lists</span>
+          <span> {board.task_count} tasks</span>
           <span style={styles.roleTag}>{board.my_role}</span>
         </div>
       </div>
@@ -206,7 +206,7 @@ export default function DashboardPage() {
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <input
               className="input"
-              placeholder="🔍 Search boards..."
+              placeholder=" Search boards..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               style={{ width: 220 }}

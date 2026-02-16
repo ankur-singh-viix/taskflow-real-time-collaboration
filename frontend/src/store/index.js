@@ -61,9 +61,6 @@ export const useAuthStore = create((set, get) => ({
 
     set({ isLoading: false });
 
-    // DO NOT store token here
-    // DO NOT connect socket here
-
     return { success: true };
   } catch (err) {
     set({ isLoading: false });
@@ -98,7 +95,7 @@ export const useBoardStore = create((set, get) => ({
   boards: [],
   currentBoard: null,
   lists: [],
-  tasks: {},      // { [listId]: Task[] }
+  tasks: {},      
   members: [],
   onlineUsers: [],
   isLoading: false,
