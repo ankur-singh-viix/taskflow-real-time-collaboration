@@ -13,7 +13,7 @@ export default function SignupPage() {
     const result = await signup(form);
     if (result.success) {
       toast.success('Account created!');
-      navigate('/dashboard');
+      navigate('/login');
     } else {
       toast.error(result.error);
     }

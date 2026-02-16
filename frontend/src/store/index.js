@@ -54,34 +54,31 @@ export const useAuthStore = create((set, get) => ({
   },
 
   signup: async (userData) => {
-    set({ isLoading: true });
-    try {
-      const { data } = await authAPI.signup(userData);
+  set({ isLoading: true });
 
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+  try {
+    await authAPI.signup(userData);
 
-      connectSocket(data.token);
+    set({ isLoading: false });
 
-      set({
-        user: data.user,
-        token: data.token,
-        isLoading: false,
-      });
+    // DO NOT store token here
+    // DO NOT connect socket here
 
-      return { success: true };
-    } catch (err) {
-      set({ isLoading: false });
-      const errors = err.response?.data?.errors;
-      return {
-        success: false,
-        error:
-          errors?.[0]?.msg ||
-          err.response?.data?.error ||
-          'Signup failed',
-      };
-    }
-  },
+    return { success: true };
+  } catch (err) {
+    set({ isLoading: false });
+
+    const errors = err.response?.data?.errors;
+
+    return {
+      success: false,
+      error:
+        errors?.[0]?.msg ||
+        err.response?.data?.error ||
+        'Signup failed',
+    };
+  }
+},
 
   logout: () => {
     localStorage.removeItem('token');
